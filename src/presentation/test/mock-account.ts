@@ -2,6 +2,7 @@ import { mockAccountModel } from '@/domain/test'
 import { AccountModel, AddAccount, AddAccountParams } from '@/presentation/controllers/login/signup/signup-controller-protocols'
 import { Authentication, AuthenticationParams } from '@/presentation/controllers/login/login/login-controller-protocols'
 import { LoadAccountByToken } from '../middlewares/auth-middleware-protocols'
+import faker from 'faker'
 
 export const mockAddAccount = (): AddAccount => {
   class AddAccountStub implements AddAccount {
@@ -21,11 +22,23 @@ export const mockAuthentication = (): Authentication => {
   return new AuthenticationStub()
 }
 
-export const mockLoadAccountByToken = (): LoadAccountByToken => {
-  class LoadAccountByTokenStub implements LoadAccountByToken {
-    async load (_accessToken: string, _role?: string): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
-    }
+export class AuthenticationSpy implements Authentication {
+  accessToken = faker.datatype.uuid()
+  authenticationParams: AuthenticationParams
+
+  async auth (authenticationParams: AuthenticationParams): Promise<string> {
+    this.authenticationParams = authenticationParams
+    return await Promise.resolve(this.accessToken)
   }
-  return new LoadAccountByTokenStub()
+}
+
+export class LoadAccountByTokenSpy implements LoadAccountByToken {
+  accountModel = mockAccountModel()
+  accessToken: string
+  role?: string
+  async load (accessToken: string, role?: string): Promise<AccountModel> {
+    this.accessToken = accessToken
+    this.role = role
+    return await Promise.resolve(this.accountModel)
+  }
 }
