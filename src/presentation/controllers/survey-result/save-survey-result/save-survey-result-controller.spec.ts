@@ -67,10 +67,10 @@ describe('SaveSurveyResult Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({
       params: {
-        surveyId: 'any_survey_id'
+        surveyId: faker.datatype.uuid()
       },
       body: {
-        answer: 'wrong_answer'
+        answer: faker.lorem.word()
       }
     })
     expect(httpResponse).toEqual(forbidden(new InvalidParamError('answer')))

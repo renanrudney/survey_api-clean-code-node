@@ -40,7 +40,7 @@ describe('DbLoadSurveyResult UseCase', () => {
   test('Should throw if LoadSurveyResultRepository throws', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
     jest.spyOn(loadSurveyResultRepositorySpy, 'loadBySurveyId').mockImplementationOnce(throwError)
-    const promise = sut.load('any_survey_id')
+    const promise = sut.load(faker.datatype.uuid())
     await expect(promise).rejects.toThrow()
   })
 
@@ -56,7 +56,7 @@ describe('DbLoadSurveyResult UseCase', () => {
     const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
     loadSurveyResultRepositorySpy.surveyResult = null
     const surveyModel = loadSurveyByIdRepositorySpy.survey
-    const surveyResult = await sut.load('any_survey_id')
+    const surveyResult = await sut.load(faker.datatype.uuid())
     expect(surveyResult).toEqual({
       surveyId: surveyModel.id,
       question: surveyModel.question,
@@ -70,7 +70,7 @@ describe('DbLoadSurveyResult UseCase', () => {
 
   test('Should return surveyResultModel on success', async () => {
     const { sut, loadSurveyResultRepositorySpy } = makeSut()
-    const surveyResult = await sut.load('any_survey_id')
+    const surveyResult = await sut.load(faker.datatype.uuid())
     expect(surveyResult).toEqual(loadSurveyResultRepositorySpy.surveyResult)
   })
 })

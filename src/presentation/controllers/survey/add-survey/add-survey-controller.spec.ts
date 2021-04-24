@@ -2,15 +2,16 @@ import { HttpRequest } from './add-surver-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
 import { AddSurveySpy, ValidationSpy } from '@/presentation/test'
-import MockDate from 'mockdate'
 import { throwError } from '@/domain/test'
+import MockDate from 'mockdate'
+import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
   body: {
-    question: 'any_question',
+    question: faker.lorem.word(),
     answers: [{
-      image: 'any_image',
-      answer: 'any_answer'
+      image: faker.image.imageUrl(),
+      answer: faker.lorem.word()
     }],
     date: new Date()
   }
