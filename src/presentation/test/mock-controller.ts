@@ -1,28 +1,18 @@
-import { ok, serverError } from '../helpers/http/http-helper'
+import { ok } from '../helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from '../protocols'
-
-export const mockRequest = (): HttpRequest => ({
-  body: {
-    any: 'body'
-  }
-})
-
-export const mockServerError = (): HttpResponse => {
-  const fakeError = new Error()
-  fakeError.stack = 'any_stack'
-  return serverError(fakeError)
-}
+import faker from 'faker'
 
 export const mockData = (): any => ({
-  id: 'valid_id',
-  data: 'any_data'
+  id: faker.datatype.uuid(),
+  data: faker.datatype.array()
 })
 
 export class ControllerSpy implements Controller {
   httpRequest: HttpRequest
+  httpResponse = mockData()
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     this.httpRequest = httpRequest
-    return await Promise.resolve(ok(mockData()))
+    return await Promise.resolve(ok(this.httpResponse))
   }
 }
