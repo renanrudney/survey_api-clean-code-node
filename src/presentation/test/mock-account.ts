@@ -4,22 +4,14 @@ import { Authentication, AuthenticationParams } from '@/presentation/controllers
 import { LoadAccountByToken } from '../middlewares/auth-middleware-protocols'
 import faker from 'faker'
 
-export const mockAddAccount = (): AddAccount => {
-  class AddAccountStub implements AddAccount {
-    async add (_account: AddAccountParams): Promise<AccountModel> {
-      return await Promise.resolve(mockAccountModel())
-    }
-  }
-  return new AddAccountStub()
-}
+export class AddAccountSpy implements AddAccount {
+  addAccountParams: AddAccountParams
+  account = mockAccountModel()
 
-export const mockAuthentication = (): Authentication => {
-  class AuthenticationStub implements Authentication {
-    async auth (_authentication: AuthenticationParams): Promise<string> {
-      return await Promise.resolve('any_token')
-    }
+  async add (addAccountParams: AddAccountParams): Promise<AccountModel> {
+    this.addAccountParams = addAccountParams
+    return await Promise.resolve(this.account)
   }
-  return new AuthenticationStub()
 }
 
 export class AuthenticationSpy implements Authentication {
