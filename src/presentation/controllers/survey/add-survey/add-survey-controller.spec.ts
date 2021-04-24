@@ -1,8 +1,8 @@
-import { HttpRequest, Validation } from './add-surver-controller-protocols'
+import { HttpRequest } from './add-surver-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
+import { AddSurveySpy, ValidationSpy } from '@/presentation/test'
 import MockDate from 'mockdate'
-import { AddSurveySpy, mockValidation } from '@/presentation/test'
 
 const mockRequest = (): HttpRequest => ({
   body: {
@@ -17,17 +17,17 @@ const mockRequest = (): HttpRequest => ({
 
 type SutTypes = {
   sut: AddSurveyController
-  validationStub: Validation
+  validationSpy: ValidationSpy
   addSurveySpy: AddSurveySpy
 }
 
 const makeSut = (): SutTypes => {
-  const validationStub = mockValidation()
+  const validationSpy = new ValidationSpy()
   const addSurveySpy = new AddSurveySpy()
-  const sut = new AddSurveyController(validationStub, addSurveySpy)
+  const sut = new AddSurveyController(validationSpy, addSurveySpy)
   return {
     sut,
-    validationStub,
+    validationSpy,
     addSurveySpy
   }
 }
@@ -42,16 +42,15 @@ describe('AddSurvey Controller', () => {
   })
 
   test('Should call Validation with correct values', async () => {
-    const { sut, validationStub } = makeSut()
-    const validateSpy = jest.spyOn(validationStub, 'validate')
+    const { sut, validationSpy } = makeSut()
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(validationSpy.input).toBe(httpRequest.body)
   })
 
   test('Should return 400 if Validation fails', async () => {
-    const { sut, validationStub } = makeSut()
-    jest.spyOn(validationStub, 'validate').mockReturnValueOnce(new Error())
+    const { sut, validationSpy } = makeSut()
+    jest.spyOn(validationSpy, 'validate').mockReturnValueOnce(new Error())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(new Error()))
   })
