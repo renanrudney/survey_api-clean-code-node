@@ -3,6 +3,7 @@ import { AccountModel, AddAccount, AddAccountParams } from '@/presentation/contr
 import { Authentication, AuthenticationParams } from '@/presentation/controllers/login/login/login-controller-protocols'
 import { LoadAccountByToken } from '../middlewares/auth-middleware-protocols'
 import faker from 'faker'
+import { AuthenticationModel } from '@/domain/models/authentication_model'
 
 export class AddAccountSpy implements AddAccount {
   addAccountParams: AddAccountParams
@@ -15,12 +16,15 @@ export class AddAccountSpy implements AddAccount {
 }
 
 export class AuthenticationSpy implements Authentication {
-  accessToken = faker.datatype.uuid()
   authenticationParams: AuthenticationParams
+  authenticationModel = {
+    accessToken: faker.datatype.uuid(),
+    name: faker.name.findName()
+  }
 
-  async auth (authenticationParams: AuthenticationParams): Promise<string> {
+  async auth (authenticationParams: AuthenticationParams): Promise<AuthenticationModel> {
     this.authenticationParams = authenticationParams
-    return await Promise.resolve(this.accessToken)
+    return await Promise.resolve(this.authenticationModel)
   }
 }
 
