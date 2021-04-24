@@ -9,7 +9,7 @@ export class HasherSpy implements Hasher {
 
   async hash (plaintext: string): Promise<string> {
     this.plaintext = plaintext
-    return this.digest
+    return await Promise.resolve(this.digest)
   }
 }
 export class DecrypterSpy implements Decrypter {
@@ -18,7 +18,7 @@ export class DecrypterSpy implements Decrypter {
 
   async decrypt (ciphertext: string): Promise<string> {
     this.ciphertext = ciphertext
-    return this.plaintext
+    return await Promise.resolve(this.plaintext)
   }
 }
 
