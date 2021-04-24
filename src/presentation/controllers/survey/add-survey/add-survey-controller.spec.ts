@@ -1,8 +1,8 @@
-import { HttpRequest, Validation, AddSurvey } from './add-surver-controller-protocols'
+import { HttpRequest, Validation } from './add-surver-controller-protocols'
 import { AddSurveyController } from './add-survey-controller'
 import { badRequest, serverError, noContent } from '@/presentation/helpers/http/http-helper'
 import MockDate from 'mockdate'
-import { mockAddSurvey, mockValidation } from '@/presentation/test'
+import { AddSurveySpy, mockValidation } from '@/presentation/test'
 
 const mockRequest = (): HttpRequest => ({
   body: {
@@ -18,17 +18,17 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: AddSurveyController
   validationStub: Validation
-  addSurveyStub: AddSurvey
+  addSurveySpy: AddSurveySpy
 }
 
 const makeSut = (): SutTypes => {
   const validationStub = mockValidation()
-  const addSurveyStub = mockAddSurvey()
-  const sut = new AddSurveyController(validationStub, addSurveyStub)
+  const addSurveySpy = new AddSurveySpy()
+  const sut = new AddSurveyController(validationStub, addSurveySpy)
   return {
     sut,
     validationStub,
-    addSurveyStub
+    addSurveySpy
   }
 }
 
@@ -57,16 +57,15 @@ describe('AddSurvey Controller', () => {
   })
 
   test('Should call AddSurvey with correct values', async () => {
-    const { sut, addSurveyStub } = makeSut()
-    const addSpy = jest.spyOn(addSurveyStub, 'add')
+    const { sut, addSurveySpy } = makeSut()
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    expect(addSpy).toHaveBeenCalledWith(httpRequest.body)
+    expect(addSurveySpy.addSurveyParams).toEqual(httpRequest.body)
   })
 
   test('Should return 500 if AddSurvey throws', async () => {
-    const { sut, addSurveyStub } = makeSut()
-    jest.spyOn(addSurveyStub, 'add').mockResolvedValueOnce(Promise.reject(new Error()))
+    const { sut, addSurveySpy } = makeSut()
+    jest.spyOn(addSurveySpy, 'add').mockResolvedValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(serverError(new Error()))
   })

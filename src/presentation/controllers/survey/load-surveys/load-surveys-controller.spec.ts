@@ -1,20 +1,19 @@
 import { LoadSurveysController } from './load-surveys-controller'
-import { LoadSurveys } from './load-surveys-controller-protocols'
 import MockDate from 'mockdate'
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { mockSurveyModels } from '@/domain/test'
-import { mockLoadSurveys } from '@/presentation/test'
+import { LoadSurveysSpy } from '@/presentation/test'
 
 type SutTypes = {
   sut: LoadSurveysController
-  loadSurveysStub: LoadSurveys
+  loadSurveysSpy: LoadSurveysSpy
 }
 const makeSut = (): SutTypes => {
-  const loadSurveysStub = mockLoadSurveys()
-  const sut = new LoadSurveysController(loadSurveysStub)
+  const loadSurveysSpy = new LoadSurveysSpy()
+  const sut = new LoadSurveysController(loadSurveysSpy)
   return {
     sut,
-    loadSurveysStub
+    loadSurveysSpy
   }
 }
 
@@ -28,8 +27,8 @@ describe('LoadSurveys Controller', () => {
   })
 
   test('Should call LoadSurveys', async () => {
-    const { sut, loadSurveysStub } = makeSut()
-    const loadSpy = jest.spyOn(loadSurveysStub, 'load')
+    const { sut, loadSurveysSpy } = makeSut()
+    const loadSpy = jest.spyOn(loadSurveysSpy, 'load')
     await sut.handle({})
     expect(loadSpy).toHaveBeenCalled()
   })
@@ -41,15 +40,15 @@ describe('LoadSurveys Controller', () => {
   })
 
   test('Should return 200 if LoadSurveys returns empty', async () => {
-    const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'load').mockResolvedValueOnce(Promise.resolve([]))
+    const { sut, loadSurveysSpy } = makeSut()
+    loadSurveysSpy.surveys = []
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(noContent())
   })
 
   test('Should return 500 if LoadSurveys throws', async () => {
-    const { sut, loadSurveysStub } = makeSut()
-    jest.spyOn(loadSurveysStub, 'load').mockResolvedValueOnce(Promise.reject(new Error()))
+    const { sut, loadSurveysSpy } = makeSut()
+    jest.spyOn(loadSurveysSpy, 'load').mockResolvedValueOnce(Promise.reject(new Error()))
     const httpResponse = await sut.handle({})
     expect(httpResponse).toEqual(serverError(new Error()))
   })
