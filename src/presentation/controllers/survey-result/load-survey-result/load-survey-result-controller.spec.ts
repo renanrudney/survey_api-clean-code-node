@@ -3,7 +3,7 @@ import { HttpRequest } from './load-survey-result-controller-protocols'
 import { LoadSurveyResultController } from './load-survey-result-controller'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { InvalidParamError } from '@/presentation/errors'
-import { mockSurveyResultModel, throwError } from '@/domain/test'
+import { throwError } from '@/domain/test'
 import MockDate from 'mockdate'
 import faker from 'faker'
 
@@ -74,8 +74,8 @@ describe('LoadSurveyResult Controller', () => {
   })
 
   test('Should return 200 on success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveyResultSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(mockSurveyResultModel()))
+    expect(httpResponse).toEqual(ok(loadSurveyResultSpy.surveyResult))
   })
 })

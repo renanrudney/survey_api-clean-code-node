@@ -1,6 +1,6 @@
 import { DbLoadSurveyResult } from './db-load-survey-result'
 import { LoadSurveyByIdRepositorySpy, LoadSurveyResultRepositorySpy } from '@/data/test'
-import { mockSurveyResultModel, throwError } from '@/domain/test'
+import { throwError } from '@/domain/test'
 import MockDate from 'mockdate'
 import faker from 'faker'
 
@@ -52,16 +52,25 @@ describe('DbLoadSurveyResult UseCase', () => {
     expect(loadSurveyByIdRepositorySpy.surveyId).toBe(surveyId)
   })
 
-  test('Should return surveyResultModel with all answers with count 0 if LoadSurveyResultRepository returns null', async () => {
-    const { sut, loadSurveyResultRepositorySpy } = makeSut()
+  test('Should return surveyResultModel with all answers if LoadSurveyResultRepository returns null', async () => {
+    const { sut, loadSurveyResultRepositorySpy, loadSurveyByIdRepositorySpy } = makeSut()
     loadSurveyResultRepositorySpy.surveyResult = null
+    const surveyModel = loadSurveyByIdRepositorySpy.survey
     const surveyResult = await sut.load('any_survey_id')
-    expect(surveyResult).toEqual(mockSurveyResultModel())
+    expect(surveyResult).toEqual({
+      surveyId: surveyModel.id,
+      question: surveyModel.question,
+      date: surveyModel.date,
+      answers: surveyModel.answers.map(answer => Object.assign({}, answer, {
+        count: 0,
+        percent: 0
+      }))
+    })
   })
 
   test('Should return surveyResultModel on success', async () => {
-    const { sut } = makeSut()
+    const { sut, loadSurveyResultRepositorySpy } = makeSut()
     const surveyResult = await sut.load('any_survey_id')
-    expect(surveyResult).toEqual(mockSurveyResultModel())
+    expect(surveyResult).toEqual(loadSurveyResultRepositorySpy.surveyResult)
   })
 })

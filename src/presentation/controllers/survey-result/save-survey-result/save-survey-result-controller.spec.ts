@@ -2,7 +2,6 @@ import { InvalidParamError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { SaveSurveyResultController } from './save-survey-result-controller'
 import { HttpRequest } from './save-survey-result-controller-protocols'
-import { mockSurveyResultModel } from '@/domain/test'
 import { LoadSurveyByIdSpy, SaveSurveyResultSpy } from '@/presentation/test'
 import MockDate from 'mockdate'
 
@@ -95,8 +94,8 @@ describe('SaveSurveyResult Controller', () => {
   })
 
   test('Should return 200 on success', async () => {
-    const { sut } = makeSut()
+    const { sut, saveSurveyResultSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(mockSurveyResultModel()))
+    expect(httpResponse).toEqual(ok(saveSurveyResultSpy.surveyResult))
   })
 })
