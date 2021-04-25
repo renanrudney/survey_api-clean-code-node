@@ -11,7 +11,7 @@ export const mockSurveyModel = (): SurveyModel => ({
     answer: faker.lorem.word(),
     image: faker.image.imageUrl()
   }],
-  date: new Date()
+  date: faker.date.recent()
 })
 
 export const mockSurveyModels = (): SurveyModel[] => {
@@ -22,7 +22,7 @@ export const mockSurveyModels = (): SurveyModel[] => {
       image: faker.image.imageUrl(),
       answer: faker.lorem.word()
     }],
-    date: new Date()
+    date: faker.date.recent()
   }, {
     id: faker.datatype.uuid(),
     question: faker.lorem.word(),
@@ -30,7 +30,7 @@ export const mockSurveyModels = (): SurveyModel[] => {
       image: faker.image.imageUrl(),
       answer: faker.lorem.word()
     }],
-    date: new Date()
+    date: faker.date.recent()
   }]
 }
 
@@ -39,6 +39,13 @@ export const mockAddSurveyParams = (): AddSurveyParams => ({
   answers: [{
     image: faker.image.imageUrl(),
     answer: faker.lorem.word()
+  },
+  {
+    answer: faker.lorem.word()
+  },
+  {
+    image: faker.image.imageUrl(),
+    answer: faker.lorem.word()
   }],
-  date: new Date()
+  date: faker.date.recent()
 })
