@@ -67,7 +67,7 @@ describe('SaveSurveyResult Controller', () => {
     const { sut } = makeSut()
     const httpResponse = await sut.handle({
       params: {
-        surveyId: faker.datatype.uuid()
+        surveyId: faker.lorem.slug()
       },
       body: {
         answer: faker.lorem.word()
