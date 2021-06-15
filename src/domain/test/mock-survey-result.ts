@@ -15,12 +15,14 @@ export const mockSurveyResultModel = (): SurveyResultModel => ({
   answers: [{
     answer: faker.lorem.word(),
     count: faker.datatype.number({ min: 0, max: 100 }),
-    percent: faker.datatype.number({ min: 0, max: 100 })
+    percent: faker.datatype.number({ min: 0, max: 100 }),
+    isCurrentAccountAnswer: faker.datatype.boolean()
   }, {
     answer: faker.lorem.word(),
     image: faker.image.imageUrl(),
     count: faker.datatype.number({ min: 0, max: 100 }),
-    percent: faker.datatype.number({ min: 0, max: 100 })
+    percent: faker.datatype.number({ min: 0, max: 100 }),
+    isCurrentAccountAnswer: faker.datatype.boolean()
   }],
   date: new Date()
 })
