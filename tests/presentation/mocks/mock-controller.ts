@@ -1,19 +1,14 @@
 
 import faker from 'faker'
 import { ok } from '@/presentation/helpers'
-import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
-
-export const mockData = (): any => ({
-  id: faker.datatype.uuid(),
-  data: faker.datatype.array()
-})
+import { Controller, HttpResponse } from '@/presentation/protocols'
 
 export class ControllerSpy implements Controller {
-  httpRequest: HttpRequest
-  httpResponse = mockData()
+  httpResponse = ok(faker.datatype.uuid())
+  request: any
 
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    this.httpRequest = httpRequest
-    return await Promise.resolve(ok(this.httpResponse))
+  async handle (request: any): Promise<HttpResponse> {
+    this.request = request
+    return this.httpResponse
   }
 }
