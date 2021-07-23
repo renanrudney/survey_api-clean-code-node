@@ -5,9 +5,10 @@ import { AddAccountRepository, LoadAccountByEmailRepository, LoadAccountByTokenR
 export class AddAccountRepositorySpy implements AddAccountRepository {
   accountModel = mockAccountModel()
   data: AddAccountRepository.Params
+
   async add (data: AddAccountRepository.Params): Promise<AddAccountRepository.Result> {
     this.data = data
-    return await Promise.resolve(this.accountModel)
+    return this.accountModel
   }
 }
 
@@ -23,11 +24,12 @@ export class LoadAccountByEmailRepositorySpy implements LoadAccountByEmailReposi
 export class LoadAccountByTokenRepositorySpy implements LoadAccountByTokenRepository {
   accountModel = mockAccountModel()
   token: string
-  role?: string
-  async loadByToken (token: string, role?: string): Promise<AccountModel> {
+  role: string
+
+  async loadByToken (token: string, role?: string): Promise<LoadAccountByTokenRepository.Result> {
     this.token = token
     this.role = role
-    return await Promise.resolve(this.accountModel)
+    return this.accountModel
   }
 }
 
