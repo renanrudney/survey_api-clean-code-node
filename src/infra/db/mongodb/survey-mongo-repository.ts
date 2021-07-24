@@ -6,9 +6,8 @@ import {
   CheckSurveyByIdRepository,
   LoadAnswersBySurveyRepository
 } from '@/data/protocols'
-import { SurveyModel } from '@/domain/models'
 import { LoadAnswersBySurvey } from '@/domain/usecases'
-import { QueryBuilder, MongoHelper } from '@/infra/db/mongodb'
+import { QueryBuilder, MongoHelper } from '@/infra/db'
 
 import { ObjectId } from 'mongodb'
 
@@ -23,7 +22,7 @@ export class SurveyMongoRepository implements
     await surveyCollection.insertOne(data)
   }
 
-  async loadAll (accountId: string): Promise<SurveyModel[]> {
+  async loadAll (accountId: string): Promise<LoadSurveysRepository.Result> {
     const surveyCollection = await MongoHelper.getCollection('surveys')
 
     const query = new QueryBuilder()
