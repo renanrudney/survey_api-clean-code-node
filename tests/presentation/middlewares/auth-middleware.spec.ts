@@ -1,10 +1,11 @@
 
-import { throwError } from '@/tests/domain/mocks'
-import faker from 'faker'
 import { AuthMiddleware } from '@/presentation/middlewares'
-import { AccessDeniedError } from '@/presentation/errors'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
+import { AccessDeniedError } from '@/presentation/errors'
+import { throwError } from '@/tests/domain/mocks'
 import { LoadAccountByTokenSpy } from '@/tests/presentation/mocks'
+
+import faker from 'faker'
 
 const mockRequest = (): AuthMiddleware.Request => ({
   accessToken: faker.datatype.uuid()

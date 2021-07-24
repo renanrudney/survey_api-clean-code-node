@@ -1,6 +1,6 @@
+import { LoadSurveyResultRepository, SaveSurveyResultRepository } from '@/data/protocols'
 import { SaveSurveyResult } from '@/domain/usecases'
 import { mockSurveyResultModel } from '@/tests/domain/mocks'
-import { LoadSurveyResultRepository, SaveSurveyResultRepository } from '@/data/protocols'
 
 export class SaveSurveyResultRepositorySpy implements SaveSurveyResultRepository {
   saveSurveyResultParams: SaveSurveyResult.Params

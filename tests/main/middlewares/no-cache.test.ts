@@ -1,6 +1,7 @@
-import request from 'supertest'
-import { noCache } from '@/main/middlewares/no-cache'
 import app from '@/main/config/app'
+import { noCache } from '@/main/middlewares/no-cache'
+
+import request from 'supertest'
 
 describe('NoCache Middleware', () => {
   test('Should disable Cache', async () => {

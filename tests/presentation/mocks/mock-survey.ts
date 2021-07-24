@@ -1,4 +1,3 @@
-import { SurveyModel } from '@/domain/models'
 import {
   AddSurvey,
   LoadAnswersBySurvey,
@@ -18,12 +17,12 @@ export class AddSurveySpy implements AddSurvey {
 }
 
 export class LoadSurveysSpy implements LoadSurveys {
-  surveys = mockSurveyModels()
+  result = mockSurveyModels()
   accountId: string
 
-  async load (accountId: string): Promise<SurveyModel[]> {
+  async load (accountId: string): Promise<LoadSurveys.Result> {
     this.accountId = accountId
-    return await Promise.resolve(this.surveys)
+    return this.result
   }
 }
 

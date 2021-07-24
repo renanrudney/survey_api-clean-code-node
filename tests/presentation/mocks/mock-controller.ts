@@ -1,7 +1,8 @@
 
-import faker from 'faker'
 import { ok } from '@/presentation/helpers'
 import { Controller, HttpResponse } from '@/presentation/protocols'
+
+import faker from 'faker'
 
 export class ControllerSpy implements Controller {
   httpResponse = ok(faker.datatype.uuid())

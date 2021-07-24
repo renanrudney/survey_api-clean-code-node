@@ -1,10 +1,11 @@
 
+import { LogControllerDecorator } from '@/main/decorators'
 import { serverError } from '@/presentation/helpers'
 import { HttpResponse } from '@/presentation/protocols'
 import { LogErrorRepositorySpy } from '@/tests/data/mocks'
 import { ControllerSpy } from '@/tests/presentation/mocks'
+
 import faker from 'faker'
-import { LogControllerDecorator } from '@/main/decorators'
 
 export const mockRequest = (): any => faker.lorem.sentence()
 

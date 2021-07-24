@@ -1,9 +1,10 @@
 
-import { Collection, ObjectId } from 'mongodb'
-import faker from 'faker'
 import { MongoHelper, SurveyResultMongoRepository } from '@/infra/db/mongodb'
 import { SurveyModel } from '@/domain/models'
 import { mockAddAccountParams, mockAddSurveyParams } from '@/tests/domain/mocks'
+
+import { Collection, ObjectId } from 'mongodb'
+import faker from 'faker'
 
 let surveyCollection: Collection
 let surveyResultCollection: Collection

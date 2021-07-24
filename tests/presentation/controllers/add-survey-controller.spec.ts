@@ -1,10 +1,11 @@
 
+import { AddSurveyController } from '@/presentation/controllers'
+import { badRequest, noContent, serverError } from '@/presentation/helpers'
+import { AddSurveySpy, ValidationSpy } from '@/tests/presentation/mocks'
+import { throwError } from '@/tests/domain/mocks'
+
 import MockDate from 'mockdate'
 import faker from 'faker'
-import { AddSurveyController } from '@/presentation/controllers'
-import { AddSurveySpy, ValidationSpy } from '@/tests/presentation/mocks'
-import { badRequest, noContent, serverError } from '@/presentation/helpers'
-import { throwError } from '@/tests/domain/mocks'
 
 const mockRequest = (): AddSurveyController.Request => ({
   question: faker.lorem.word(),

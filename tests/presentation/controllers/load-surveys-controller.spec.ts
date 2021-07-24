@@ -1,10 +1,11 @@
 
+import { LoadSurveysController } from '@/presentation/controllers'
+import { noContent, ok, serverError } from '@/presentation/helpers'
+import { LoadSurveysSpy } from '@/tests/presentation/mocks'
+import { throwError } from '@/tests/domain/mocks'
+
 import MockDate from 'mockdate'
 import faker from 'faker'
-import { LoadSurveysController } from '@/presentation/controllers'
-import { LoadSurveysSpy } from '@/tests/presentation/mocks'
-import { noContent, ok, serverError } from '@/presentation/helpers'
-import { throwError } from '@/tests/domain/mocks'
 
 const mockRequest = (): LoadSurveysController.Request => ({ accountId: faker.datatype.uuid() })
 
@@ -40,12 +41,12 @@ describe('LoadSurveys Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut, loadSurveysSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(loadSurveysSpy.surveys))
+    expect(httpResponse).toEqual(ok(loadSurveysSpy.result))
   })
 
   test('Should return 200 if LoadSurveys returns empty', async () => {
     const { sut, loadSurveysSpy } = makeSut()
-    loadSurveysSpy.surveys = []
+    loadSurveysSpy.result = []
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(noContent())
   })

@@ -1,5 +1,3 @@
-import { SurveyModel } from '@/domain/models'
-import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks'
 import {
   AddSurveyRepository,
   LoadSurveyByIdRepository,
@@ -7,6 +5,8 @@ import {
   CheckSurveyByIdRepository,
   LoadAnswersBySurveyRepository
 } from '@/data/protocols'
+import { SurveyModel } from '@/domain/models'
+import { mockSurveyModel, mockSurveyModels } from '@/tests/domain/mocks'
 
 import faker from 'faker'
 
@@ -15,7 +15,6 @@ export class AddSurveyRepositorySpy implements AddSurveyRepository {
 
   async add (data: AddSurveyRepository.Params): Promise<void> {
     this.addSurveyParams = data
-    return await Promise.resolve(null)
   }
 }
 
@@ -55,6 +54,6 @@ export class LoadSurveysRepositorySpy implements LoadSurveysRepository {
 
   async loadAll (accountId: string): Promise<SurveyModel[]> {
     this.accountId = accountId
-    return await Promise.resolve(this.surveys)
+    return this.surveys
   }
 }

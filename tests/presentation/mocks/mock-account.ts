@@ -1,6 +1,7 @@
 
-import faker from 'faker'
 import { AddAccount, Authentication, LoadAccountByToken } from '@/domain/usecases'
+
+import faker from 'faker'
 
 export class AddAccountSpy implements AddAccount {
   result = true
@@ -14,14 +15,14 @@ export class AddAccountSpy implements AddAccount {
 
 export class AuthenticationSpy implements Authentication {
   authenticationParams: Authentication.Params
-  authenticationModel = {
+  result = {
     accessToken: faker.datatype.uuid(),
     name: faker.name.findName()
   }
 
-  async auth (authenticationParams: Authentication.Params): Promise<Authentication.Result> {
-    this.authenticationParams = authenticationParams
-    return await Promise.resolve(this.authenticationModel)
+  async auth (data: Authentication.Params): Promise<Authentication.Result> {
+    this.authenticationParams = data
+    return this.result
   }
 }
 
