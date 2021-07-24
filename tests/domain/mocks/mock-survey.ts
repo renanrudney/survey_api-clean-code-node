@@ -43,10 +43,6 @@ export const mockAddSurveyParams = (): AddSurvey.Params => ({
   },
   {
     answer: faker.lorem.word()
-  },
-  {
-    image: faker.image.imageUrl(),
-    answer: faker.lorem.word()
   }],
   date: faker.date.recent()
 })
