@@ -1,11 +1,12 @@
 
-import MockDate from 'mockdate'
-import faker from 'faker'
 import { LoadSurveyResultController } from '@/presentation/controllers'
 import { CheckSurveyByIdSpy, LoadSurveyResultSpy } from '@/tests/presentation/mocks'
 import { forbidden, ok, serverError } from '@/presentation/helpers'
 import { InvalidParamError } from '@/presentation/errors'
 import { throwError } from '@/tests/domain/mocks'
+
+import MockDate from 'mockdate'
+import faker from 'faker'
 
 const mockRequest = (): LoadSurveyResultController.Request => ({
   accountId: faker.datatype.uuid(),
@@ -76,6 +77,6 @@ describe('LoadSurveyResult Controller', () => {
   test('Should return 200 on success', async () => {
     const { sut, loadSurveyResultSpy } = makeSut()
     const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(loadSurveyResultSpy.surveyResult))
+    expect(httpResponse).toEqual(ok(loadSurveyResultSpy.result))
   })
 })
