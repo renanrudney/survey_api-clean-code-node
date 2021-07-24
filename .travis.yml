@@ -6,7 +6,7 @@ script:
   - npm run test:coveralls
 branches:
   only:
-    - master
+    - main
 deploy:
   provider: heroku
   api_key: $API_KEY
