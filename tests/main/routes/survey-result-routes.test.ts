@@ -9,7 +9,7 @@ import { sign } from 'jsonwebtoken'
 let surveyCollection: Collection
 let accountCollection: Collection
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const res = await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@mail.com',
@@ -27,6 +27,7 @@ const makeAccessToken = async (): Promise<string> => {
   })
   return accessToken
 }
+
 describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL)
@@ -63,7 +64,7 @@ describe('Survey Routes', () => {
         date: new Date()
       })
       const id: string = res.ops[0]._id
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .put(`/api/surveys/${id}/results`)
         .set('x-access-token', accessToken)
@@ -93,7 +94,7 @@ describe('Survey Routes', () => {
         date: new Date()
       })
       const id: string = res.ops[0]._id
-      const accessToken = await makeAccessToken()
+      const accessToken = await mockAccessToken()
       await request(app)
         .get(`/api/surveys/${id}/results`)
         .set('x-access-token', accessToken)

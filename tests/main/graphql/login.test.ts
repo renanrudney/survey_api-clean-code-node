@@ -85,7 +85,7 @@ describe('Login GraphQL', () => {
       expect(res.data.signUp.name).toBe('any_name')
     })
 
-    test('Should return EmailInUseError on invalid data ', async () => {
+    test('Should return EmailInUseError on invalid data', async () => {
       const password = await hash('valid_password', 12)
       await accountCollection.insertOne({
         name: 'any_name',
