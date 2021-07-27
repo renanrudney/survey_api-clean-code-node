@@ -7,9 +7,9 @@
 
 Study Case: Node with Typescript, TDD, DDD, Clean Architecture and SOLID.
 ---
+* Works with GraphQL
 
 ## [**API Documentation**](https://clean-node-api-survey.herokuapp.com/api-docs)
-## [**GraphQL PLayground**](https://clean-node-api-survey.herokuapp.com/graphql)
 
 
 ## Prerequisites
